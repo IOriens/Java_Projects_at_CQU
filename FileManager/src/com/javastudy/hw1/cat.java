@@ -12,7 +12,7 @@ public class cat implements Manager {
 		// TODO Auto-generated method stub
 		if (args[1].contains(":\\") || args[1].charAt(0) == '/') {
 			FileReader in = null;
-			BufferedReader read = null;
+			BufferedReader read = null;//1111111111111111111111
 			String s = null;
 			//BufferedWriter writer = null;
 
