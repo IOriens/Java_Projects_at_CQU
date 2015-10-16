@@ -34,7 +34,9 @@ public class cat implements Manager {
 			}
 
 		} else {
-			currDir.append("\\" + args[1]);
+			StringBuffer tempdir=new StringBuffer(currDir);
+//			System.out.println(tempdir.toString());
+			tempdir.append("\\" + args[1]);
 
 			FileReader in = null;
 			BufferedReader read = null;
@@ -42,7 +44,7 @@ public class cat implements Manager {
 			//BufferedWriter writer = null;
 
 			try {
-				in = new FileReader(currDir.toString());
+				in = new FileReader(tempdir.toString());
 				read=new BufferedReader(in);
 				while ((s = read.readLine()) != null) {
 		                System.out.println(s);

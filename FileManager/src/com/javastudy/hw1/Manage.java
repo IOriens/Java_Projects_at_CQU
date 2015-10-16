@@ -20,6 +20,7 @@ public class Manage {
 				String line=br.readLine();
 				args = line.split("\\s+");
 			}
+			System.out.println("CURR--DIR:"+currentDir.toString());
 			turn++;
 			// //输出已经读入的参数
 			// for(String s:args){
