@@ -13,14 +13,14 @@ public class Manage {
 		while (true) {
 			// 当没有使用自带参数输入时我们需要从控制台再次输入参数
 			if (args.length == 0||turn>0) {
-				System.out.println("Please Input the Instruction:");
+				System.out.print(currentDir.toString()+">>>");
 				args = new String[10];
 				
 				BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 				String line=br.readLine();
 				args = line.split("\\s+");
 			}
-			System.out.println("CURR--DIR:"+currentDir.toString());
+			//System.out.println("CURR--DIR:"+currentDir.toString());
 			turn++;
 			// //输出已经读入的参数
 			// for(String s:args){

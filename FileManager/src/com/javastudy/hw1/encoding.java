@@ -7,5 +7,4 @@ public class encoding implements Manager{
 		// TODO Auto-generated method stub
 		System.out.println("文件加密");
 	}
-
 }

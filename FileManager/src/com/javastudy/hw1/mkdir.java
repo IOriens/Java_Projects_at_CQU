@@ -12,32 +12,34 @@ public class mkdir implements Manager{
 			File file =new File(args[1]);
 			
 			if(!file.exists()&&!file.isDirectory()){
-				System.out.println("//不存在");
+				//System.out.println(">>>不存在");
 				
 				boolean status=file.mkdirs();
 				if(status){
-					System.out.println("//目录成功创建");
+					System.out.println(">>>目录成功创建");
 				}else{
-					System.out.println("//目录创建失败");
+					System.out.println(">>>目录创建失败");
 				}
 			}else{
-				System.out.println("//目录存在");
+				System.out.println(">>>目录存在");
 			}
 			
 		}else{
-			currDir.append("\\"+args[1]);
-			File file =new File(currDir.toString());
+			StringBuffer tempdir=new StringBuffer(currDir);
+//			System.out.println(tempdir.toString());
+			tempdir.append("\\" + args[1]);			
+			File file =new File(tempdir.toString());
 			
 			if(!file.exists()&&!file.isDirectory()){
-				System.out.println("//不存在");
+				//System.out.println(">>>不存在");
 				boolean status=file.mkdirs();
 				if(status){
-					System.out.println("//目录成功创建");
+					System.out.println(">>>目录成功创建");
 				}else{
-					System.out.println("//目录创建失败");
+					System.out.println(">>>目录创建失败");
 				}
 			}else{
-				System.out.println("//目录存在");
+				System.out.println(">>>目录存在");
 			}
 			
 		}

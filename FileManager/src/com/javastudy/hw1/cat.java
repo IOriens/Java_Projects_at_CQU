@@ -37,14 +37,14 @@ public class cat implements Manager {
 			StringBuffer tempdir=new StringBuffer(currDir);
 //			System.out.println(tempdir.toString());
 			tempdir.append("\\" + args[1]);
-
+			
 			FileReader in = null;
 			BufferedReader read = null;
 			String s = null;
 			//BufferedWriter writer = null;
 
 			try {
-				in = new FileReader(tempdir.toString());
+				in = new FileReader(tempdir.toString());				
 				read=new BufferedReader(in);
 				while ((s = read.readLine()) != null) {
 		                System.out.println(s);
