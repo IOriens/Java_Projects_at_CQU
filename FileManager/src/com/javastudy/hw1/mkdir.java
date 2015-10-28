@@ -8,7 +8,7 @@ public class mkdir implements Manager{
 	public void excute(String[] args, StringBuffer currDir) {
 		// TODO Auto-generated method stub
 		//此处使用windows系统
-		if(args[1].contains(":\\")||args[1].charAt(0)=='/'){
+		if(args[1].contains(":\\")){
 			File file =new File(args[1]);
 			
 			if(!file.exists()&&!file.isDirectory()){
