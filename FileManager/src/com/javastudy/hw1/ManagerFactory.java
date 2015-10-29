@@ -34,6 +34,9 @@ public class ManagerFactory {
 		else if("newunzip".equals(type)){
 			return new newunzip();
 		}
+		else if("rm".equals(type)){
+			return new rm();
+		}
 		else{
 			return new Error();
 		}
