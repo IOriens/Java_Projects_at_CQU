@@ -14,16 +14,16 @@ public class decoding implements Manager {
 		String decmsg = "";
 		String key = "";
 		int i = 0;
-		if (args[3].contains(":\\")) {
+		if (args[1].contains(":\\")) {
 			try {
-				g = new FileInputStream(args[3]);
+				g = new FileInputStream(args[1]);
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} else {
 			StringBuffer tempdir = new StringBuffer(currDir);
-			tempdir.append("\\" + args[3]);
+			tempdir.append("\\" + args[1]);
 			try {
 				g = new FileInputStream(tempdir.toString());
 			} catch (FileNotFoundException e) {
