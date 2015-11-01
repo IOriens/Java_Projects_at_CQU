@@ -26,6 +26,9 @@ public class ManagerFactory {
 		else if("encoding".equals(type)){
 			return new encoding();
 		}
+		else if("pwd".equals(type)){
+			return new pwd();
+		}
 		
 		else if("newzip".equals(type)){
 			return new newzip();

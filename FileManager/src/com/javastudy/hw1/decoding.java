@@ -105,10 +105,17 @@ public class decoding implements Manager {
 					if (q == key.length())
 						q = 0;
 				}
+				System.out.println("解密后内容如下：");
 				System.out.println(decmsg);
 			}
 		} else
 			System.out.println("error key");
+		try {
+			k1.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

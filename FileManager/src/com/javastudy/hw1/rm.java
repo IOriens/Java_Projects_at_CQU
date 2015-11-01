@@ -16,6 +16,7 @@ public class rm implements Manager{
 			}
 		}else {
 			File f=new File(currDir.toString(),args[1]);
+			System.out.println(f.toString()+"=====");
 			if(f.exists()){
 				f.delete();
 				System.out.println("The file has been deleted");

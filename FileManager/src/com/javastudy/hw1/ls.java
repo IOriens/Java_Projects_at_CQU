@@ -8,7 +8,17 @@ public class ls implements Manager {
 
 	@Override
 	public void excute(String[] args, StringBuffer currDir) {
-		File f=new File(currDir.toString());
+		File f = null;
+		if(args.length>=2){
+			if(args[1].contains(":")){
+				f=new File(args[1]);
+			}else{
+				f=new File(currDir.toString(),args[1]);
+			}
+		}else{
+			f=new File(currDir.toString());
+		}
+		
 		File[] list=f.listFiles();	
 		Boolean flag1=true;
 		Boolean flag2=true;
@@ -23,8 +33,7 @@ public class ls implements Manager {
 			if(flag1){
 				System.out.println("---DIR---");
 				flag1=false;
-			}
-			
+			}			
 			if(li.isDirectory())
 				System.out.println("DIR:"+li.getName());
 		}

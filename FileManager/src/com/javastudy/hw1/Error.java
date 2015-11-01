@@ -6,6 +6,5 @@ public class Error implements Manager{
 	public void excute(String[] args, StringBuffer currDir) {
 		// TODO Auto-generated method stub
 		System.out.println("输入命令错误");
-	}
-	
+	}	
 }
