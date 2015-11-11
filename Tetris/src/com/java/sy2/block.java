@@ -89,7 +89,6 @@ public class block implements tetrisConstants{
 		dispBlock(row,col,arr,blankSquares);
 		row--;			
 		dispBlock(row,col,arr,fallingSquares);			
-
 		return arr;
 	}
 

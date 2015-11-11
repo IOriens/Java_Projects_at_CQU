@@ -166,7 +166,12 @@ public class tetrisView extends JFrame {
 		JPanel controlScr = new MyPanel();
 		controlScr.setLayout(new GridLayout(5, 1, 0, 5));
 		rightScr.add(controlScr);
-
+		
+		
+		
+		timerIns.setDaemon(true);
+		timerIns.start();
+		
 		// 定义按钮play
 		JButton play_b = new JButton("开始游戏");
 		play_b.setSize(new Dimension(50, 200));
@@ -174,15 +179,13 @@ public class tetrisView extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				if(!gameController.isPlaying()){
+					gameCanvas.repaint();
 					gameController.initScr();
 					gameController.Play();				
-					scoreField.setText("0");
-					timerIns.start();
-
+					scoreField.setText("0");					
 					if (soundClipBackground.isRunning()) soundClipBackground.stop(); 
 					soundClipBackground.setFramePosition(0); // rewind to the beginning
 					soundClipBackground.start();             // Start playing
-
 					gameCanvas.requestFocus();				
 				}
 			}
@@ -331,6 +334,11 @@ class GameCanvas extends JPanel implements KeyListener,tetrisConstants{
 		g.setColor(new Color(195, 185, 123));
 		g.setFont(new Font("TimesRoman", Font.PLAIN, 20)); 	
 		g.drawString("ME", getWidth()/2-10, 20);
+		if(gameController.isGameEnd()){
+			g.setColor(Color.red);
+			g.setFont(new Font("TimesRoman", Font.PLAIN, 30)); 	
+			g.drawString("Game Over", getWidth()/2-60, getHeight()/2);			
+		}
 	}
 
 	public void drawUnit(int row, int col, int type,Graphics g) {
@@ -358,22 +366,19 @@ class GameCanvas extends JPanel implements KeyListener,tetrisConstants{
 
 	// 处理键盘输入的方法
 	public void keyPressed(KeyEvent e) {
+				
+		if(!gameController.isPlaying())
+			return;
 		if (soundClipHit.isRunning()) soundClipHit.stop();
 		soundClipHit.setFramePosition(0); // rewind to the beginning
 		soundClipHit.start();  
-
-		System.out.println("LEFTKEY==================================================");
-		if (!gameController.isPlaying())
-			return;
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_DOWN:
 			gameController.fallDown();		
 			repaint();
 			break;
-		case KeyEvent.VK_LEFT:
-			System.out.println("LEFTKEY==================================================");
+		case KeyEvent.VK_LEFT:		
 			gameController.leftMove();
-
 			repaint();
 			break;
 		case KeyEvent.VK_RIGHT:
@@ -401,7 +406,7 @@ class EnemyCanvas extends JPanel implements tetrisConstants{
 		columnNum = 10;
 		arr=new int[rowNum][columnNum];
 		for (int[] is : arr) {
-			for (int i : is) {
+			for (@SuppressWarnings("unused") int i : is) {
 				i=blankSquares;
 			}
 		}
@@ -451,7 +456,7 @@ class MyTimer implements Runnable,tetrisConstants{
 		this.gameCanvas=gameCanvas;
 	}
 	public void run() {
-		while (true) {
+		while (true) {		
 			try {
 				Thread.sleep((10 - gameController.getLevel()+ 1) * 100);				
 			} catch (InterruptedException e) {
@@ -467,7 +472,7 @@ class MyTimer implements Runnable,tetrisConstants{
 				}				
 			}
 			if(gameController.isGameEnd()){
-				break;
+//				gameCanvas.paitGameOver();
 			}
 			gameCanvas.requestFocus();
 		}

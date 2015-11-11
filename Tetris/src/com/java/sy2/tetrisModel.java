@@ -36,7 +36,7 @@ public class tetrisModel implements tetrisConstants{
 		columnNum = 10;
 		maxAllowRowNum = rowNum - 2;
 		b = new block();
-		blockInitRow = rowNum;
+		blockInitRow = rowNum-1;
 		blockInitCol = columnNum / 2 - 2;
 		blockCurrRow=blockInitRow;
 		blockCurrCol=blockInitCol;
@@ -128,7 +128,7 @@ public class tetrisModel implements tetrisConstants{
 	}
 
 	// �ж���Ϸ�Ƿ��������
-	boolean isGameEnd() {
+	public boolean isGameEnd() {
 		for (int col = 0; col < columnNum; col++) {
 			if (scrArr[maxAllowRowNum][col]==bottomSquares)
 				return true;
@@ -159,7 +159,6 @@ public class tetrisModel implements tetrisConstants{
 	}
 
 	public void rightMove () {
-		
 		if(assertValid(b.getBlockType(), b.getTurnState(),blockCurrRow, blockCurrCol+1)){
 			scrArr=b.rightMove(blockCurrRow, blockCurrCol, scrArr);
 			blockCurrCol++;
