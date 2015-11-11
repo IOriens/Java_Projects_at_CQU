@@ -1,6 +1,13 @@
 
 package com.java.sy2;
 
+import java.io.File;
+import java.net.URL;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class tetrisModel implements tetrisConstants{
 
@@ -17,6 +24,11 @@ public class tetrisModel implements tetrisConstants{
 	block b; // �Է��������
 
 	int score;
+	
+	//sound
+	String fileLine="sounds/line.wav";
+	Clip soundClipLine;
+	
 
 	// ������Ĺ��췽��
 	tetrisModel() {
@@ -30,6 +42,24 @@ public class tetrisModel implements tetrisConstants{
 		blockCurrCol=blockInitCol;
 		scrArr = new int[32][32];
 		score=0;
+		
+		
+		//sound
+		try {
+			File fileLinef=new File(fileLine);
+			URL url=fileLinef.toURI().toURL();
+			if (url == null) {
+				System.err.println("Couldn't find file: " + fileLine);
+			} else {
+				AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+				soundClipLine = AudioSystem.getClip();
+				soundClipLine.open(audioIn);
+			}			
+		} catch (UnsupportedAudioFileException e) {
+			System.err.println("Audio Format not supported!");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	// ��ʼ����Ļ��������Ļ��������ķ���
@@ -69,8 +99,13 @@ public class tetrisModel implements tetrisConstants{
 				}
 			}
 
-			if (isfull)
+			if (isfull){
 				full_line_num++;
+				if (soundClipLine.isRunning()) soundClipLine.stop();
+				soundClipLine.setFramePosition(0); // rewind to the beginning
+				soundClipLine.start();  
+			}
+				
 			if (k != 0 && k - 1 != i && !isfull)
 				for (int j = 0; j < columnNum; j++) {
 					if (scrArr[i][j] == 0)

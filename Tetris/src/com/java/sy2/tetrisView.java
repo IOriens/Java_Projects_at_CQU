@@ -29,7 +29,9 @@ public class tetrisView extends JFrame {
 	private static final long serialVersionUID = -2208003941032001015L;
 	//	private JPanel contentPane;
 	private JPanel rightScr;
+	@SuppressWarnings("unused")
 	private MyPanel infoScr;
+	@SuppressWarnings("unused")
 	private MyPanel controlScr;
 
 	public static MyTimer timer;
@@ -44,13 +46,12 @@ public class tetrisView extends JFrame {
 	//sounds
 	String fileBackground = "sounds/music.wav";	
 	Clip soundClipBackground;
-	
-	String fileLine="sounds/line.wav";
-	Clip soundClipLine;
-	
-	String fileHie="sounds/Hit.wav";
-	Clip soundClipHit;
-	
+
+	//	String fileLine="sounds/line.wav";
+	//	Clip soundClipLine;
+
+
+
 
 	/**
 	 * Launch the application.
@@ -101,6 +102,24 @@ public class tetrisView extends JFrame {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+
+		//		try {
+		//			File fileLinef=new File(fileLine);
+		//			URL url=fileLinef.toURI().toURL();
+		//			if (url == null) {
+		//				System.err.println("Couldn't find file: " + fileLine);
+		//			} else {
+		//				AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+		//				soundClipLine = AudioSystem.getClip();
+		//				soundClipLine.open(audioIn);
+		//			}			
+		//		} catch (UnsupportedAudioFileException e) {
+		//			System.err.println("Audio Format not supported!");
+		//		} catch (Exception e) {
+		//			e.printStackTrace();
+		//		}
+
 
 
 		timer = new MyTimer(gameController,gameCanvas);
@@ -155,7 +174,8 @@ public class tetrisView extends JFrame {
 					gameController.Play();				
 					scoreField.setText("0");
 					timerIns.start();
-					
+
+					if (soundClipBackground.isRunning()) soundClipBackground.stop(); 
 					soundClipBackground.setFramePosition(0); // rewind to the beginning
 					soundClipBackground.start();             // Start playing
 
@@ -215,8 +235,7 @@ public class tetrisView extends JFrame {
 					try {
 						Thread.sleep(500);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						System.out.println(e);
 					}
 				}
 
@@ -245,7 +264,30 @@ class GameCanvas extends JPanel implements KeyListener,tetrisConstants{
 	int columnNum;
 	private tetrisController gameController;
 
+	//sound
+	String fileHit="sounds/Hit.wav";
+	Clip soundClipHit;
+
 	GameCanvas(tetrisController gameController) {
+
+		//sound
+		try {
+			File fileHitf=new File(fileHit);
+			URL url=fileHitf.toURI().toURL();
+			if (url == null) {
+				System.err.println("Couldn't find file: " + fileHit);
+			} else {
+				AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+				soundClipHit = AudioSystem.getClip();
+				soundClipHit.open(audioIn);
+			}			
+		} catch (UnsupportedAudioFileException e) {
+			System.err.println("Audio Format not supported!");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		rowNum = 15;
 		columnNum = 10;
@@ -291,6 +333,10 @@ class GameCanvas extends JPanel implements KeyListener,tetrisConstants{
 
 	// 处理键盘输入的方法
 	public void keyPressed(KeyEvent e) {
+		if (soundClipHit.isRunning()) soundClipHit.stop();
+		soundClipHit.setFramePosition(0); // rewind to the beginning
+		soundClipHit.start();  
+
 		System.out.println("LEFTKEY==================================================");
 		if (!gameController.isPlaying())
 			return;
