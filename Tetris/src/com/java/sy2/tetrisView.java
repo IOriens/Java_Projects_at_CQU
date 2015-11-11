@@ -233,13 +233,13 @@ class GameCanvas extends JPanel implements KeyListener,tetrisConstants{
 		//		g=getGraphics();
 		switch (type) { 
 		case blankSquares:
-			g.setColor(Color.black);
+			g.setColor(new Color(123,120, 115));
 			break; 
 		case fallingSquares:			
-			g.setColor(Color.blue);
+			g.setColor(new Color(178,120, 118));
 			break;
 		case bottomSquares:
-			g.setColor(Color.magenta);
+			g.setColor(new Color(41,160, 192));
 			break; 
 		}
 		g.fill3DRect(col * unitSize, getSize().height - (row + 1) * unitSize,

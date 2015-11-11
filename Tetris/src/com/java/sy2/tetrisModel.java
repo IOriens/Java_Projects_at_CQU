@@ -88,7 +88,7 @@ public class tetrisModel implements tetrisConstants{
 			}
 		}
 
-		score += full_line_num;	
+		score += full_line_num*columnNum;	
 		System.out.println(score+"==================================================");
 	}
 
