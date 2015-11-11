@@ -3,6 +3,7 @@ package com.java.sy2;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.Graphics;
 
 import javax.sound.sampled.AudioInputStream;
@@ -41,6 +42,7 @@ public class tetrisView extends JFrame {
 
 	private tetrisController gameController;
 	private GameCanvas gameCanvas;
+	private EnemyCanvas enemyCanvas;
 
 
 	//sounds
@@ -74,8 +76,10 @@ public class tetrisView extends JFrame {
 	 */
 	public tetrisView() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(620, 480);
-		setLayout(new GridLayout(1, 2));
+		int width=614;
+		int height=490;
+		setSize(width+width/2, height);
+		setLayout(new GridLayout(1, 3));
 
 		gameController=new tetrisController();
 
@@ -242,6 +246,24 @@ public class tetrisView extends JFrame {
 			}
 		});
 		scoreMonitor.start();
+		enemyCanvas=new EnemyCanvas();
+		add(enemyCanvas);
+
+		Thread ememyMonitor=new Thread(new Runnable() {
+			public void run() {
+				while(true){
+					enemyCanvas.paintEnemy(gameController.getScrArr());
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+			}
+		});
+		ememyMonitor.start();
 
 		gameCanvas.requestFocus();
 
@@ -306,6 +328,9 @@ class GameCanvas extends JPanel implements KeyListener,tetrisConstants{
 				drawUnit(i, j, gameController.getScrArr()[i][j],g);				
 			}
 		}
+		g.setColor(new Color(195, 185, 123));
+		g.setFont(new Font("TimesRoman", Font.PLAIN, 20)); 	
+		g.drawString("ME", getWidth()/2-10, 20);
 	}
 
 	public void drawUnit(int row, int col, int type,Graphics g) {
@@ -362,6 +387,61 @@ class GameCanvas extends JPanel implements KeyListener,tetrisConstants{
 		}
 	}
 }
+
+class EnemyCanvas extends JPanel implements tetrisConstants{
+
+	private static final long serialVersionUID = -2651733920085838493L;
+	final int unitSize = 30; 
+	int rowNum; 
+	int columnNum;
+	int arr[][];
+	EnemyCanvas() {
+		setBorder(BorderFactory.createLineBorder(Color.black));
+		rowNum = 15;
+		columnNum = 10;
+		arr=new int[rowNum][columnNum];
+		for (int[] is : arr) {
+			for (int i : is) {
+				i=blankSquares;
+			}
+		}
+	}
+
+	void paintEnemy(int arr[][]){
+		this.arr=arr;
+		repaint();
+	}
+
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		for (int i = 0; i < rowNum; i++){
+			for (int j = 0; j < columnNum; j++){
+				drawUnit(i, j, arr[i][j],g);				
+			}
+		}
+		g.setColor(new Color(195, 185, 123));
+		g.setFont(new Font("TimesRoman", Font.PLAIN, 20)); 	
+		g.drawString("Enemy", getWidth()/2-30, 20);
+	}
+
+	public void drawUnit(int row, int col, int type,Graphics g) {
+		//		g=getGraphics();
+		switch (type) { 
+		case blankSquares:
+			g.setColor(new Color(123,120, 115));
+			break; 
+		case fallingSquares:			
+			g.setColor(new Color(41,160, 192));
+			break;
+		case bottomSquares:
+			g.setColor(new Color(178,120, 118));
+			break; 
+		}
+		g.fill3DRect(col * unitSize, getSize().height - (row + 1) * unitSize,
+				unitSize, unitSize, true);		
+	}
+}
+
 
 class MyTimer implements Runnable,tetrisConstants{
 	tetrisController gameController;
