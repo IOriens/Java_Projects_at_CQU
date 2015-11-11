@@ -24,7 +24,7 @@ public class tetrisModel implements tetrisConstants{
 		columnNum = 10;
 		maxAllowRowNum = rowNum - 2;
 		b = new block();
-		blockInitRow = rowNum - 1;
+		blockInitRow = rowNum;
 		blockInitCol = columnNum / 2 - 2;
 		blockCurrRow=blockInitRow;
 		blockCurrCol=blockInitCol;

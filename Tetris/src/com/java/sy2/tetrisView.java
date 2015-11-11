@@ -11,6 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
+
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.KeyEvent;
@@ -21,7 +23,7 @@ import java.awt.event.MouseEvent;
 public class tetrisView extends JFrame {
 
 	private static final long serialVersionUID = -2208003941032001015L;
-//	private JPanel contentPane;
+	//	private JPanel contentPane;
 	private JPanel rightScr;
 	private MyPanel infoScr;
 	private MyPanel controlScr;
@@ -55,14 +57,14 @@ public class tetrisView extends JFrame {
 	 */
 	public tetrisView() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(600, 480);
+		setSize(620, 480);
 		setLayout(new GridLayout(1, 2));
 
 		gameController=new tetrisController();
 
 		gameCanvas=new GameCanvas(gameController);
 		gameCanvas.addKeyListener(gameCanvas);
-	  
+
 
 		add(gameCanvas);
 
@@ -96,9 +98,9 @@ public class tetrisView extends JFrame {
 		infoScr.add(levelField);
 		scorep.setSize(new Dimension(20, 60));
 		scoreField.setSize(new Dimension(20, 60));
-		
-		
-		
+
+
+
 		levelp.setSize(new Dimension(20, 60));
 		levelField.setSize(new Dimension(20, 60));
 		scoreField.setText("0");
@@ -115,21 +117,39 @@ public class tetrisView extends JFrame {
 		play_b.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				gameController.initScr();
-				gameController.Play();				
-				scoreField.setText("0");
-				timerIns.start();
-				gameCanvas.requestFocus();
+				if(!gameController.isPlaying()){
+					gameController.initScr();
+					gameController.Play();				
+					scoreField.setText("0");
+					timerIns.start();
+					gameCanvas.requestFocus();				
+				}
 			}
 		});
 
 		// 定义按钮Level UP
 		JButton level_up_b = new JButton("提高级数");
 		level_up_b.setSize(new Dimension(50, 200));
+		level_up_b.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				gameController.levelUp();
+				levelField.setText(gameController.getLevel()+"");
+				gameCanvas.requestFocus();
+			}
+		});
 
 		// 定义按钮Level Down
 		JButton level_down_b = new JButton("降低级数");
 		level_down_b.setSize(new Dimension(50, 200));
+		level_down_b.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				gameController.levelDown();
+				levelField.setText(gameController.getLevel()+"");
+				gameCanvas.requestFocus();
+			}
+		});
 
 		// 定义按钮Level Pause
 		JButton pause_b = new JButton("游戏暂停");
@@ -150,23 +170,23 @@ public class tetrisView extends JFrame {
 		controlScr.add(level_down_b);
 		controlScr.add(pause_b);
 		controlScr.add(quit_b);
-		
-		  Thread scoreMonitor=new Thread(new Runnable() {
-				public void run() {
-					while(true){
-						scoreField.setText(""+gameController.getScore());
-						try {
-							Thread.sleep(500);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+
+		Thread scoreMonitor=new Thread(new Runnable() {
+			public void run() {
+				while(true){
+					scoreField.setText(""+gameController.getScore());
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
-					
 				}
-			});
-		  scoreMonitor.start();
-				
+
+			}
+		});
+		scoreMonitor.start();
+
 		gameCanvas.requestFocus();
 
 	}
@@ -199,7 +219,7 @@ class GameCanvas extends JPanel implements KeyListener,tetrisConstants{
 	void initScr() {
 		gameController.initScr();;		
 	}
-	
+
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		for (int i = 0; i < rowNum; i++){
@@ -210,7 +230,7 @@ class GameCanvas extends JPanel implements KeyListener,tetrisConstants{
 	}
 
 	public void drawUnit(int row, int col, int type,Graphics g) {
-//		g=getGraphics();
+		//		g=getGraphics();
 		switch (type) { 
 		case blankSquares:
 			g.setColor(Color.black);
@@ -228,10 +248,10 @@ class GameCanvas extends JPanel implements KeyListener,tetrisConstants{
 
 	public void keyTyped(KeyEvent e) {
 	}
-	
+
 	public void keyReleased(KeyEvent e) {
 	}
-	
+
 	// 处理键盘输入的方法
 	public void keyPressed(KeyEvent e) {
 		System.out.println("LEFTKEY==================================================");
@@ -245,7 +265,7 @@ class GameCanvas extends JPanel implements KeyListener,tetrisConstants{
 		case KeyEvent.VK_LEFT:
 			System.out.println("LEFTKEY==================================================");
 			gameController.leftMove();
-			
+
 			repaint();
 			break;
 		case KeyEvent.VK_RIGHT:

@@ -65,4 +65,16 @@ public class tetrisController {
 	public void Play() {
 		isPlaying=true;
 	}
+
+	public void levelUp() {
+		// TODO Auto-generated method stub
+		level++;
+	}
+
+	public void levelDown() {
+		// TODO Auto-generated method stub
+		if(level-1>0){
+			level--;
+		}
+	}
 }
