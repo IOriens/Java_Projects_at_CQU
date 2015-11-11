@@ -21,6 +21,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.net.URL;
 
 public class tetrisView extends JFrame {
@@ -41,8 +42,15 @@ public class tetrisView extends JFrame {
 
 
 	//sounds
-	String fileBackground = "music.wav";
+	String fileBackground = "sounds/music.wav";	
 	Clip soundClipBackground;
+	
+	String fileLine="sounds/line.wav";
+	Clip soundClipLine;
+	
+	String fileHie="sounds/Hit.wav";
+	Clip soundClipHit;
+	
 
 	/**
 	 * Launch the application.
@@ -79,7 +87,8 @@ public class tetrisView extends JFrame {
 
 		//sound
 		try {
-			URL url = this.getClass().getClassLoader().getResource(fileBackground);
+			File fileBackgroundf=new File(fileBackground);
+			URL url=fileBackgroundf.toURI().toURL();
 			if (url == null) {
 				System.err.println("Couldn't find file: " + fileBackground);
 			} else {
