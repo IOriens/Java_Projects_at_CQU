@@ -5,20 +5,23 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.LineBorder;
-
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.net.URL;
 
 public class tetrisView extends JFrame {
 
@@ -35,6 +38,11 @@ public class tetrisView extends JFrame {
 
 	private tetrisController gameController;
 	private GameCanvas gameCanvas;
+
+
+	//sounds
+	String fileBackground = "music.wav";
+	Clip soundClipBackground;
 
 	/**
 	 * Launch the application.
@@ -68,6 +76,22 @@ public class tetrisView extends JFrame {
 
 		add(gameCanvas);
 
+
+		//sound
+		try {
+			URL url = this.getClass().getClassLoader().getResource(fileBackground);
+			if (url == null) {
+				System.err.println("Couldn't find file: " + fileBackground);
+			} else {
+				AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+				soundClipBackground = AudioSystem.getClip();
+				soundClipBackground.open(audioIn);
+			}			
+		} catch (UnsupportedAudioFileException e) {
+			System.err.println("Audio Format not supported!");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 
 		timer = new MyTimer(gameController,gameCanvas);
@@ -122,6 +146,10 @@ public class tetrisView extends JFrame {
 					gameController.Play();				
 					scoreField.setText("0");
 					timerIns.start();
+					
+					soundClipBackground.setFramePosition(0); // rewind to the beginning
+					soundClipBackground.start();             // Start playing
+
 					gameCanvas.requestFocus();				
 				}
 			}
@@ -236,10 +264,10 @@ class GameCanvas extends JPanel implements KeyListener,tetrisConstants{
 			g.setColor(new Color(123,120, 115));
 			break; 
 		case fallingSquares:			
-			g.setColor(new Color(178,120, 118));
+			g.setColor(new Color(41,160, 192));
 			break;
 		case bottomSquares:
-			g.setColor(new Color(41,160, 192));
+			g.setColor(new Color(178,120, 118));
 			break; 
 		}
 		g.fill3DRect(col * unitSize, getSize().height - (row + 1) * unitSize,
