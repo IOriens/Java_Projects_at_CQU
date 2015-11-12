@@ -13,8 +13,8 @@ public class tetrisModel implements tetrisConstants{
 
 	//data
 	//	final int unitSize = 30;
-	int rowNum; // �����������
-	int columnNum; // �����������
+	int rowNum; 
+	int columnNum;
 	int maxAllowRowNum; // �����ж�����δ��
 	int blockInitRow; // �³��ֿ����ʼ������
 	int blockInitCol; // �³��ֿ����ʼ������
@@ -123,8 +123,7 @@ public class tetrisModel implements tetrisConstants{
 			}
 		}
 
-		score += full_line_num*columnNum;	
-		System.out.println(score+"==================================================");
+		score += full_line_num*columnNum;			
 	}
 
 	// �ж���Ϸ�Ƿ��������

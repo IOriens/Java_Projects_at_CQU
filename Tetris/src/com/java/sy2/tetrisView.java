@@ -200,7 +200,7 @@ public class tetrisView extends JFrame {
 			public void mouseClicked(MouseEvent arg0) {
 				gameController.levelUp();
 				levelField.setText(gameController.getLevel()+"");
-				gameCanvas.requestFocus();
+//				gameCanvas.requestFocus();
 			}
 		});
 
@@ -212,13 +212,19 @@ public class tetrisView extends JFrame {
 			public void mouseClicked(MouseEvent arg0) {
 				gameController.levelDown();
 				levelField.setText(gameController.getLevel()+"");
-				gameCanvas.requestFocus();
+//				gameCanvas.requestFocus();
 			}
 		});
 
-		// 定义按钮Level Pause
-		JButton pause_b = new JButton("游戏暂停");
-		pause_b.setSize(new Dimension(50, 200));
+		// 定义按钮NetFight_b
+		JButton NetFight_b = new JButton("联网对战");
+		NetFight_b.setSize(new Dimension(50, 200));
+		NetFight_b.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				gameController.connectToServer();
+			}
+		});
 
 		// 定义按钮Quit
 		JButton quit_b = new JButton("退出游戏");
@@ -233,7 +239,7 @@ public class tetrisView extends JFrame {
 		controlScr.add(play_b);
 		controlScr.add(level_up_b);
 		controlScr.add(level_down_b);
-		controlScr.add(pause_b);
+		controlScr.add(NetFight_b);
 		controlScr.add(quit_b);
 
 		Thread scoreMonitor=new Thread(new Runnable() {
@@ -256,7 +262,7 @@ public class tetrisView extends JFrame {
 		Thread ememyMonitor=new Thread(new Runnable() {
 			public void run() {
 				while(true){
-					enemyCanvas.paintEnemy(gameController.getScrArr());
+					enemyCanvas.paintEnemy(gameController.getEnemyArr());
 					try {
 						Thread.sleep(500);
 					} catch (InterruptedException e) {
@@ -267,8 +273,7 @@ public class tetrisView extends JFrame {
 
 			}
 		});
-		ememyMonitor.start();
-		gameController.connectToServer();
+		ememyMonitor.start();		
 		gameCanvas.requestFocus();
 
 	}
@@ -291,7 +296,7 @@ class GameCanvas extends JPanel implements KeyListener,tetrisConstants{
 	private tetrisController gameController;
 
 	//sound
-	String fileHit="sounds/Hit.wav";
+	String fileHit="sounds/hit.wav";
 	Clip soundClipHit;
 
 	GameCanvas(tetrisController gameController) {
@@ -475,7 +480,7 @@ class MyTimer implements Runnable,tetrisConstants{
 			if(gameController.isGameEnd()){
 //				gameCanvas.paitGameOver();
 			}
-			gameCanvas.requestFocus();
+//			gameCanvas.requestFocus();
 		}
 	}
 }

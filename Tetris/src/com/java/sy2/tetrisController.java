@@ -1,6 +1,7 @@
 package com.java.sy2;
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -96,8 +97,10 @@ public class tetrisController implements tetrisConstants{
 
 
 
-	ObjectInputStream objFromServer ;
-	ObjectOutputStream objToServer ;
+	// ObjectInputStream objFromServer ;
+	// ObjectOutputStream objToServer ;
+	private DataInputStream fromServer;
+	private DataOutputStream toServer;
 
 
 
@@ -110,17 +113,53 @@ public class tetrisController implements tetrisConstants{
 			int port=8000;		
 			socket = new Socket(host,port);
 
-			objFromServer = new ObjectInputStream(
-					socket.getInputStream());
-			objToServer = new ObjectOutputStream(
-					socket.getOutputStream());
+			// objFromServer = new ObjectInputStream(
+			// 		socket.getInputStream());
+			// objToServer = new ObjectOutputStream(
+			// 		socket.getOutputStream());
+
+			// Create an input stream to receive data from the server
+			fromServer = new DataInputStream(socket.getInputStream());
+
+			// Create an output stream to send data to the server
+			toServer = new DataOutputStream(socket.getOutputStream());
 		}
 		catch (Exception ex) {
 			System.err.println(ex);
 		}
-		
+
 		Thread thread = new Thread(new Runnable() {
-			public void run() {				
+			public void run() {		
+				try{
+					int player = fromServer.readInt();
+					System.out.println(player+"============Player==============");
+					System.out.println(fromServer.readInt()+"=======readed=====");
+
+
+					while(true){			
+						
+						for(int i=0;i<rowNum;i++){
+							for(int j=0;j<columnNum;j++){
+								toServer.writeInt(gameModel.getScrArr()[i][j]);
+							}
+						}
+						
+						for(int i=0;i<rowNum;i++){
+							for(int j=0;j<columnNum;j++){
+								enemyArr[i][j]=fromServer.readInt();
+							}
+						}
+
+						
+						Thread.sleep(500);
+					}
+
+
+				}catch(Exception e){
+					System.out.println(e+"====EX2======");
+				}
+
+				/*
 				while (true) {				
 					try {
 //						objToServer.writeObject(gameModel.getScrArr());
@@ -131,9 +170,15 @@ public class tetrisController implements tetrisConstants{
 						System.out.println(e);
 					}
 				}
+				 */				
 			}
 		});
 		thread.start();
+	}
+
+	public int[][] getEnemyArr() {
+		// TODO Auto-generated method stub
+		return enemyArr;
 	}
 }
 

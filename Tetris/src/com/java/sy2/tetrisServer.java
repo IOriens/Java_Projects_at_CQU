@@ -41,30 +41,40 @@ public class tetrisServer extends JFrame implements tetrisConstants{
 		try {
 			ServerSocket serverSocket = new ServerSocket(8000);
 			jtaLog.append(new Date() +
-					": Server started at socket 8000\n");
+				": Server started at socket 8000\n");
 			int sessionNo = 1;
 			jtaLog.append(new Date() +
-					": Wait for players to join session " + sessionNo + '\n');
+				": Wait for players to join session " + sessionNo + '\n');
+
+
+			//Player1
 			Socket player1 = serverSocket.accept();
 
 			jtaLog.append(new Date() + ": Player 1 joined session " +
-					sessionNo + '\n');
+				sessionNo + '\n');
 			jtaLog.append("Player 1's IP address" +
-					player1.getInetAddress().getHostAddress() + '\n');
+				player1.getInetAddress().getHostAddress() + '\n');
 			new DataOutputStream(
-					player1.getOutputStream()).writeInt(PLAYER1);	
+				player1.getOutputStream()).writeInt(PLAYER1);	
+
+
+			//Player2
 			Socket player2 = serverSocket.accept();
 			jtaLog.append(new Date() +
-					": Player 2 joined session " + sessionNo + '\n');
+				": Player 2 joined session " + sessionNo + '\n');
 			jtaLog.append("Player 2's IP address" +
-					player2.getInetAddress().getHostAddress() + '\n');
+				player2.getInetAddress().getHostAddress() + '\n');
 			jtaLog.append(new Date() + ": Start a thread for session " +
-					sessionNo++ + '\n');
+				sessionNo++ + '\n');
+			new DataOutputStream(
+				player2.getOutputStream()).writeInt(PLAYER2);
+
+
 			HandleASession task = new HandleASession(player1, player2);
 			new Thread(task).start();
 		}
 		catch(IOException ex) {
-			System.err.println(ex);
+			System.err.println(ex+"======EX1=====");
 		}
 	}
 
@@ -96,40 +106,49 @@ class HandleASession implements Runnable, tetrisConstants {
 	public void run() {
 		try {
 
-//			ObjectInputStream fromPlayer1 = new ObjectInputStream(
-//					player1.getInputStream());
-//			ObjectInputStream fromPlayer2 = new ObjectInputStream(
-//					player2.getInputStream());
-//			ObjectOutputStream toPlayer2 = new ObjectOutputStream(
-//					player2.getOutputStream());
-
 			DataInputStream fromPlayer1 = new DataInputStream(
-					player1.getInputStream());
+				player1.getInputStream());
 			DataOutputStream toPlayer1 = new DataOutputStream(
-					player1.getOutputStream());
+				player1.getOutputStream());
 			DataInputStream fromPlayer2 = new DataInputStream(
-					player2.getInputStream());
+				player2.getInputStream());
 			DataOutputStream toPlayer2 = new DataOutputStream(
-					player2.getOutputStream());
+				player2.getOutputStream());
 			
 			toPlayer1.writeInt(1);
-			
-			
+			toPlayer2.writeInt(1);
 
-			while (true) {
-				try{
-//					matrixA=(int[][]) fromPlayer1.readObject();
-//					toPlayer2.writeObject(matrixA);
-//					matrixB=(int[][]) fromPlayer2.readObject();
-//					toPlayer2.writeObject(matrixB);
-				}catch(Exception e){
-					System.out.println(e);
+			while(true){
+				for(int i=0;i<rowNum;i++){
+					for(int j=0;j<columnNum;j++){
+						matrixA[i][j]=fromPlayer1.readInt();
+					}
 				}
+
+				for(int i=0;i<rowNum;i++){
+					for(int j=0;j<columnNum;j++){
+						matrixB[i][j]=fromPlayer2.readInt();
+					}
+				}
+				Thread.sleep(500);
+
 				
-			}
-		}
-		catch(IOException ex) {
-			System.err.println(ex);
+				
+				for(int i=0;i<rowNum;i++){
+					for(int j=0;j<columnNum;j++){
+						toPlayer1.writeInt(matrixB[i][j]);
+					}
+				}
+				for(int i=0;i<rowNum;i++){
+					for(int j=0;j<columnNum;j++){
+						toPlayer2.writeInt(matrixA[i][j]);
+					}
+				}
+				Thread.sleep(500);
+			}				
+		}		
+		catch(IOException | InterruptedException ex) {
+			System.err.println(ex+"=====EX3=====");
 		}
 	}
 }
