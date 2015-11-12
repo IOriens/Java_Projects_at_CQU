@@ -82,6 +82,7 @@ public class tetrisView extends JFrame {
 		setLayout(new GridLayout(1, 3));
 
 		gameController=new tetrisController();
+		
 
 		gameCanvas=new GameCanvas(gameController);
 		gameCanvas.addKeyListener(gameCanvas);
@@ -267,7 +268,7 @@ public class tetrisView extends JFrame {
 			}
 		});
 		ememyMonitor.start();
-
+		gameController.connectToServer();
 		gameCanvas.requestFocus();
 
 	}

@@ -16,5 +16,7 @@ public interface tetrisConstants {
 	public static int DRAW = 3; // Indicate a draw
 	public static int CONTINUE = 4; // Indicate to continue
 	
+	public static int rowNum=15; 
+	public static int columnNum=10;
     
 }

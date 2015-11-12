@@ -1,9 +1,17 @@
 package com.java.sy2;
 
-public class tetrisController {
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+
+public class tetrisController implements tetrisConstants{
 	tetrisModel gameModel;
 	public static boolean isPlaying = false;
 	public int level = 1;
+
+	int[][] enemyArr=new int[rowNum][columnNum];
 
 	public tetrisController() {
 		gameModel=new tetrisModel();		
@@ -85,4 +93,47 @@ public class tetrisController {
 			level--;
 		}
 	}
+
+
+
+	ObjectInputStream objFromServer ;
+	ObjectOutputStream objToServer ;
+
+
+
+	@SuppressWarnings("resource")
+	public void connectToServer() {
+		try {
+
+			String host="localhost";
+			Socket socket;
+			int port=8000;		
+			socket = new Socket(host,port);
+
+			objFromServer = new ObjectInputStream(
+					socket.getInputStream());
+			objToServer = new ObjectOutputStream(
+					socket.getOutputStream());
+		}
+		catch (Exception ex) {
+			System.err.println(ex);
+		}
+		
+		Thread thread = new Thread(new Runnable() {
+			public void run() {				
+				while (true) {				
+					try {
+//						objToServer.writeObject(gameModel.getScrArr());
+//						enemyArr=(int[][]) objFromServer.readObject();
+						Thread.sleep(500);
+					}
+					catch (Exception e) {
+						System.out.println(e);
+					}
+				}
+			}
+		});
+		thread.start();
+	}
 }
+
