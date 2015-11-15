@@ -56,9 +56,6 @@ public class tetrisServer extends JFrame implements tetrisConstants{
 					sessionNo + '\n');
 			jtaLog.append("Player 1's IP address" +
 					player1.getInetAddress().getHostAddress() + '\n');
-			//			new DataOutputStream(
-			//					player1.getOutputStream()).writeInt(PLAYER1);	
-
 
 			//Player2
 			Socket player2 = serverSocket.accept();

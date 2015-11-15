@@ -123,8 +123,6 @@ public class tetrisController implements tetrisConstants{
 
 
 
-	// ObjectInputStream objFromServer ;
-	// ObjectOutputStream objToServer ;
 	private DataInputStream fromServer;
 	private DataOutputStream toServer;
 
@@ -183,9 +181,7 @@ public class tetrisController implements tetrisConstants{
 						enemyIsGameOver=fromServer.readBoolean();
 						toServer.writeInt(getScore());
 						enemyScore=fromServer.readInt();
-						if(enemyIsGameOver==true){
-//							break;
-						}
+					
 						Thread.sleep(500);
 					}
 				}catch(Exception e){
