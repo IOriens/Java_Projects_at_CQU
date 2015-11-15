@@ -49,10 +49,6 @@ public class tetrisView extends JFrame {
 	String fileBackground = "sounds/music.wav";	
 	Clip soundClipBackground;
 
-	//	String fileLine="sounds/line.wav";
-	//	Clip soundClipLine;
-
-
 
 
 	/**
@@ -75,6 +71,7 @@ public class tetrisView extends JFrame {
 	 * Create the frame.
 	 */
 	public tetrisView() {
+		setTitle("联网对战俄罗斯方块");		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		int width=614;
 		int height=490;
@@ -109,23 +106,6 @@ public class tetrisView extends JFrame {
 		}
 
 
-		//		try {
-		//			File fileLinef=new File(fileLine);
-		//			URL url=fileLinef.toURI().toURL();
-		//			if (url == null) {
-		//				System.err.println("Couldn't find file: " + fileLine);
-		//			} else {
-		//				AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
-		//				soundClipLine = AudioSystem.getClip();
-		//				soundClipLine.open(audioIn);
-		//			}			
-		//		} catch (UnsupportedAudioFileException e) {
-		//			System.err.println("Audio Format not supported!");
-		//		} catch (Exception e) {
-		//			e.printStackTrace();
-		//		}
-
-
 
 		timer = new MyTimer(gameController,gameCanvas);
 
@@ -139,7 +119,9 @@ public class tetrisView extends JFrame {
 
 		JPanel infoScr = new MyPanel();
 		infoScr.setLayout(new GridLayout(4, 1, 0, 5));
+//		infoScr.setBackground(new Color(77, 208, 225));
 		infoScr.setSize(120, 300);
+		
 		rightScr.add(infoScr);
 		JLabel scorep = new JLabel("分数:", JLabel.LEFT);
 		JLabel levelp = new JLabel("等级:", JLabel.LEFT);
@@ -166,6 +148,7 @@ public class tetrisView extends JFrame {
 
 		JPanel controlScr = new MyPanel();
 		controlScr.setLayout(new GridLayout(5, 1, 0, 5));
+		controlScr.setBackground(new Color(0, 131, 143));
 		rightScr.add(controlScr);
 		
 		
@@ -175,6 +158,7 @@ public class tetrisView extends JFrame {
 		
 		// 定义按钮play
 		JButton play_b = new JButton("开始游戏");
+		play_b.setBackground(Color.white);
 		play_b.setSize(new Dimension(50, 200));
 		play_b.addMouseListener(new MouseAdapter() {
 			@Override
@@ -194,6 +178,7 @@ public class tetrisView extends JFrame {
 
 		// 定义按钮Level UP
 		JButton level_up_b = new JButton("提高级数");
+		level_up_b.setBackground(Color.white);
 		level_up_b.setSize(new Dimension(50, 200));
 		level_up_b.addMouseListener(new MouseAdapter() {
 			@Override
@@ -206,6 +191,7 @@ public class tetrisView extends JFrame {
 
 		// 定义按钮Level Down
 		JButton level_down_b = new JButton("降低级数");
+		level_down_b.setBackground(Color.white);
 		level_down_b.setSize(new Dimension(50, 200));
 		level_down_b.addMouseListener(new MouseAdapter() {
 			@Override
@@ -218,16 +204,19 @@ public class tetrisView extends JFrame {
 
 		// 定义按钮NetFight_b
 		JButton NetFight_b = new JButton("联网对战");
+		NetFight_b.setBackground(Color.white);
 		NetFight_b.setSize(new Dimension(50, 200));
 		NetFight_b.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				gameController.connectToServer();
+				
 			}
 		});
 
 		// 定义按钮Quit
 		JButton quit_b = new JButton("退出游戏");
+		quit_b.setBackground(Color.white);
 		quit_b.setSize(new Dimension(50, 200));
 		quit_b.addMouseListener(new MouseAdapter() {
 			@Override
@@ -262,7 +251,7 @@ public class tetrisView extends JFrame {
 		Thread ememyMonitor=new Thread(new Runnable() {
 			public void run() {
 				while(true){
-					enemyCanvas.paintEnemy(gameController.getEnemyArr());
+					enemyCanvas.paintEnemy(gameController.getEnemyArr(),gameController.isEnemyIsGameOver(),gameController.getEnemyScore());
 					try {
 						Thread.sleep(500);
 					} catch (InterruptedException e) {
@@ -270,7 +259,6 @@ public class tetrisView extends JFrame {
 						e.printStackTrace();
 					}
 				}
-
 			}
 		});
 		ememyMonitor.start();		
@@ -341,9 +329,13 @@ class GameCanvas extends JPanel implements KeyListener,tetrisConstants{
 		g.setFont(new Font("TimesRoman", Font.PLAIN, 20)); 	
 		g.drawString("ME", getWidth()/2-10, 20);
 		if(gameController.isGameEnd()){
-			g.setColor(Color.red);
+			g.setColor(Color.white);	
+			g.fill3DRect(0, 0, getWidth(), getHeight(),true);
+			g.setColor(new Color(0, 160,220));
 			g.setFont(new Font("TimesRoman", Font.PLAIN, 30)); 	
-			g.drawString("Game Over", getWidth()/2-60, getHeight()/2);			
+			g.drawString("Game Over", getWidth()/2-64, getHeight()/2);				
+			String scoreString="Score: "+gameController.getScore();
+			g.drawString(scoreString,getWidth()/2-44, getHeight()/2+30);
 		}
 	}
 
@@ -405,11 +397,14 @@ class EnemyCanvas extends JPanel implements tetrisConstants{
 	final int unitSize = 30; 
 	int rowNum; 
 	int columnNum;
+	int enemyScore;
 	int arr[][];
+	boolean isGameEnd;
 	EnemyCanvas() {
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		rowNum = 15;
 		columnNum = 10;
+		enemyScore=0;
 		arr=new int[rowNum][columnNum];
 		for (int[] is : arr) {
 			for (@SuppressWarnings("unused") int i : is) {
@@ -418,8 +413,10 @@ class EnemyCanvas extends JPanel implements tetrisConstants{
 		}
 	}
 
-	void paintEnemy(int arr[][]){
+	void paintEnemy(int arr[][],boolean isGameEnd,int score){
 		this.arr=arr;
+		this.isGameEnd=isGameEnd;
+		this.enemyScore=score;
 		repaint();
 	}
 
@@ -433,6 +430,15 @@ class EnemyCanvas extends JPanel implements tetrisConstants{
 		g.setColor(new Color(195, 185, 123));
 		g.setFont(new Font("TimesRoman", Font.PLAIN, 20)); 	
 		g.drawString("Enemy", getWidth()/2-30, 20);
+		if(isGameEnd){
+			g.setColor(Color.white);	
+			g.fill3DRect(0, 0, getWidth(), getHeight(),true);
+			g.setColor(new Color(0, 160,220));
+			g.setFont(new Font("TimesRoman", Font.PLAIN, 30)); 	
+			g.drawString("Game Over", getWidth()/2-64, getHeight()/2);				
+			String scoreString="Score: "+enemyScore;
+			g.drawString(scoreString,getWidth()/2-44, getHeight()/2+30);		
+		}
 	}
 
 	public void drawUnit(int row, int col, int type,Graphics g) {
@@ -467,20 +473,31 @@ class MyTimer implements Runnable,tetrisConstants{
 				Thread.sleep((10 - gameController.getLevel()+ 1) * 100);				
 			} catch (InterruptedException e) {
 			}
-			gameController.fallDown();
-			gameCanvas.repaint();
-			if (gameController.getBlockState()==stableState) {
-				gameController.checkFullLine();
+			if(gameController.getPlayerNum()==onePlayer){
+				gameController.fallDown();
 				gameCanvas.repaint();
-				if (!gameController.isGameEnd()) {					
-					gameController.resetBlock();
+				if (gameController.getBlockState()==stableState) {
+					gameController.checkFullLine();
 					gameCanvas.repaint();
-				}				
+					if (!gameController.isGameEnd()) {					
+						gameController.resetBlock();
+						gameCanvas.repaint();
+					}				
+				}
 			}
-			if(gameController.isGameEnd()){
-//				gameCanvas.paitGameOver();
+			if(gameController.getPlayerNum()==twoPlayer&&gameController.isStarted()&&gameController.isEnemyIsPlaying()){
+				gameController.fallDown();
+				gameCanvas.repaint();
+				if (gameController.getBlockState()==stableState) {
+					gameController.checkFullLine();
+					gameCanvas.repaint();
+					if (!gameController.isGameEnd()) {					
+						gameController.resetBlock();
+						gameCanvas.repaint();
+					}				
+				}
 			}
-//			gameCanvas.requestFocus();
+		
 		}
 	}
 }

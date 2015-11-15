@@ -2,22 +2,41 @@ package com.java.sy2;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class tetrisController implements tetrisConstants{
 	tetrisModel gameModel;
+	private int playerNum;
 	public static boolean isPlaying = false;
 	public int level = 1;
 
 	int[][] enemyArr=new int[rowNum][columnNum];
 
-	public tetrisController() {
-		gameModel=new tetrisModel();		
+	boolean isStarted;
+	boolean enemyIsPlaying;
+	boolean enemyIsGameOver;
+	int enemyScore;
+
+	public int getEnemyScore() {
+		return enemyScore;
 	}
 
+	public void setEnemyScore(int enemyScore) {
+		this.enemyScore = enemyScore;
+	}
+
+	public boolean isEnemyIsPlaying() {
+		return enemyIsPlaying;
+	}
+
+	public tetrisController() {
+		gameModel=new tetrisModel();
+		playerNum=onePlayer;
+		enemyIsPlaying=false;
+		enemyIsGameOver=false;
+		isStarted=false;
+	}
+	
 	public void leftTurn() {
 		if(isPlaying)
 			gameModel.leftTurn();
@@ -79,8 +98,17 @@ public class tetrisController implements tetrisConstants{
 		return gameModel.isGameEnd();	
 	}
 
+	public boolean isStarted() {
+		return isStarted;
+	}
+
+	public void setStarted(boolean isStarted) {
+		this.isStarted = isStarted;
+	}
+
 	public void Play() {
 		isPlaying=true;
+		isStarted=true;
 	}
 
 	public void levelUp() {
@@ -104,8 +132,17 @@ public class tetrisController implements tetrisConstants{
 
 
 
+	public boolean isEnemyIsGameOver() {
+		return enemyIsGameOver;
+	}
+
+	public void setEnemyIsGameOver(boolean enemyIsGameOver) {
+		this.enemyIsGameOver = enemyIsGameOver;
+	}
+
 	@SuppressWarnings("resource")
 	public void connectToServer() {
+		playerNum=twoPlayer;
 		try {
 
 			String host="localhost";
@@ -113,16 +150,13 @@ public class tetrisController implements tetrisConstants{
 			int port=8000;		
 			socket = new Socket(host,port);
 
-			// objFromServer = new ObjectInputStream(
-			// 		socket.getInputStream());
-			// objToServer = new ObjectOutputStream(
-			// 		socket.getOutputStream());
 
 			// Create an input stream to receive data from the server
 			fromServer = new DataInputStream(socket.getInputStream());
 
 			// Create an output stream to send data to the server
 			toServer = new DataOutputStream(socket.getOutputStream());
+			
 		}
 		catch (Exception ex) {
 			System.err.println(ex);
@@ -130,47 +164,36 @@ public class tetrisController implements tetrisConstants{
 
 		Thread thread = new Thread(new Runnable() {
 			public void run() {		
-				try{
-					int player = fromServer.readInt();
-					System.out.println(player+"============Player==============");
-					System.out.println(fromServer.readInt()+"=======readed=====");
-
-
-					while(true){			
-						
-						for(int i=0;i<rowNum;i++){
-							for(int j=0;j<columnNum;j++){
-								toServer.writeInt(gameModel.getScrArr()[i][j]);
+				try{	
+					while(true){
+						toServer.writeBoolean(isStarted);
+						enemyIsPlaying=fromServer.readBoolean();
+							
+							for(int i=0;i<rowNum;i++){
+								for(int j=0;j<columnNum;j++){
+									toServer.writeInt(gameModel.getScrArr()[i][j]);
+								}
 							}
-						}
-						
-						for(int i=0;i<rowNum;i++){
-							for(int j=0;j<columnNum;j++){
-								enemyArr[i][j]=fromServer.readInt();
-							}
-						}
 
-						
+							for(int i=0;i<rowNum;i++){
+								for(int j=0;j<columnNum;j++){
+									enemyArr[i][j]=fromServer.readInt();
+								}
+							}							
+
+						toServer.writeBoolean(isGameEnd());
+						enemyIsGameOver=fromServer.readBoolean();
+						toServer.writeInt(getScore());
+						enemyScore=fromServer.readInt();
+						if(enemyIsGameOver==true){
+//							break;
+						}
 						Thread.sleep(500);
 					}
-
-
 				}catch(Exception e){
 					System.out.println(e+"====EX2======");
 				}
 
-				/*
-				while (true) {				
-					try {
-//						objToServer.writeObject(gameModel.getScrArr());
-//						enemyArr=(int[][]) objFromServer.readObject();
-						Thread.sleep(500);
-					}
-					catch (Exception e) {
-						System.out.println(e);
-					}
-				}
-				 */				
 			}
 		});
 		thread.start();
@@ -179,6 +202,10 @@ public class tetrisController implements tetrisConstants{
 	public int[][] getEnemyArr() {
 		// TODO Auto-generated method stub
 		return enemyArr;
+	}
+
+	public int getPlayerNum() {
+		return playerNum;
 	}
 }
 

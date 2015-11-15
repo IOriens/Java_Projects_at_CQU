@@ -18,5 +18,8 @@ public interface tetrisConstants {
 	
 	public static int rowNum=15; 
 	public static int columnNum=10;
+	
+	public static int onePlayer=1; 
+	public static int twoPlayer=2;
     
 }
