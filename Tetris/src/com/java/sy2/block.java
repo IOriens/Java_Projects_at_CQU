@@ -4,7 +4,7 @@ package com.java.sy2;
 
 public class block implements tetrisConstants{
 	static int[][] pattern = {
-			{ 0x0f00, 0x4444, 0x0f00, 0x4444 },// ��ʮ��������ʾ�����б�ʾ��������״̬
+			{ 0x0f00, 0x4444, 0x0f00, 0x4444 },
 			{ 0x04e0, 0x0464, 0x00e4, 0x04c4 },
 			{ 0x4620, 0x6c00, 0x4620, 0x6c00 },
 			{ 0x2640, 0xc600, 0x2640, 0xc600 },
@@ -12,30 +12,30 @@ public class block implements tetrisConstants{
 			{ 0x6440, 0x0e20, 0x44c0, 0x8e00 },
 			{ 0x0660, 0x0660, 0x0660, 0x0660 } };
 
-	static int blockType; // ���ģʽ�ţ�0-6��
-	static int turnState; // ��ķ�ת״̬��0-3��
+	static int blockType; 
+	static int turnState; 
 	int blockState;
 
-	// ����Ĺ��췽��
+
 	block() {		
 		blockType = (int) (Math.random() * 1000) % 7;
 		turnState = (int) (Math.random() * 1000) % 4;
 		blockState=fallingState;
 	}
 
-	//���ص�ǰ����״̬��1 �������� 0 �Ѵ���
+
 	public int getState(){
 		return blockState;
 	}
 
-	// ���³�ʼ���飬����ʾ�¿�
+
 	public void reset() {
 		blockType = (int) (Math.random() * 1000) % 7;
 		turnState = (int) (Math.random() * 1000) % 4;
 		blockState=fallingSquares;
 	}
 
-	// ʵ�֡��顱��ת�ķ���
+
 	public int[][] leftTurn(int row,int col,int arr[][]) {
 
 		dispBlock(row,col,arr,blankSquares);
@@ -76,7 +76,7 @@ public class block implements tetrisConstants{
 		block.turnState = turnState;
 	}
 
-	// ʵ�ֿ������
+
 	public int[][] rightMove(int row,int col,int arr[][]) {		
 		dispBlock(row,col,arr,blankSquares);
 		col++;
@@ -84,7 +84,7 @@ public class block implements tetrisConstants{
 		return arr;
 	}
 
-	// ʵ�ֿ����µĲ����ķ���
+
 	public int[][] fallDown1(int row,int col,int arr[][]) {
 		dispBlock(row,col,arr,blankSquares);
 		row--;			
@@ -98,9 +98,9 @@ public class block implements tetrisConstants{
 		return arr;
 	}
 
-	// ͬ����ʾ�ķ���
+
 	public synchronized void dispBlock(int row,int col,int arr[][],int type) {
-		int k = 0x8000;
+		int k = 0x8000;	
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
 				if (((int) pattern[blockType][turnState] & k) != 0) {

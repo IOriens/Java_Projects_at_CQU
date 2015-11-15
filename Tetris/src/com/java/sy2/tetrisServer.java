@@ -15,9 +15,6 @@ import javax.swing.JTextArea;
 
 public class tetrisServer extends JFrame implements tetrisConstants{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -120597616338874927L;
 
 	@SuppressWarnings("unused")
