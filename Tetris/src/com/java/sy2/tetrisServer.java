@@ -20,10 +20,12 @@ public class tetrisServer extends JFrame implements tetrisConstants{
 	 */
 	private static final long serialVersionUID = -120597616338874927L;
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		tetrisServer frame = new tetrisServer();
 	}
 
+	@SuppressWarnings("resource")
 	public tetrisServer() {
 		JTextArea jtaLog = new JTextArea();
 
@@ -34,7 +36,7 @@ public class tetrisServer extends JFrame implements tetrisConstants{
 		add(scrollPane, BorderLayout.CENTER);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(300, 300);
+		setSize(500, 300);
 		setTitle("TicTacToeServer");
 		setVisible(true);
 
@@ -66,9 +68,6 @@ public class tetrisServer extends JFrame implements tetrisConstants{
 					player2.getInetAddress().getHostAddress() + '\n');
 			jtaLog.append(new Date() + ": Start a thread for session " +
 					sessionNo++ + '\n');
-			//			new DataOutputStream(
-			//					player2.getOutputStream()).writeInt(PLAYER2);
-
 
 			HandleASession task = new HandleASession(player1, player2);
 			new Thread(task).start();
@@ -124,8 +123,7 @@ class HandleASession implements Runnable, tetrisConstants {
 			while(true){
 				isPlaying1=fromPlayer1.readBoolean();
 				isPlaying2=fromPlayer2.readBoolean();
-//				System.out.println(isPlaying1+"Playing 1111111111111");
-//				System.out.println(isPlaying2+"Playing 222222222222");
+
 				toPlayer1.writeBoolean(isPlaying2);
 				toPlayer2.writeBoolean(isPlaying1);
 
@@ -143,7 +141,6 @@ class HandleASession implements Runnable, tetrisConstants {
 					}
 				}
 
-				//					Thread.sleep(500);
 
 				for(int i=0;i<rowNum;i++){
 					for(int j=0;j<columnNum;j++){

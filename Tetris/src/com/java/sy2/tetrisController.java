@@ -112,12 +112,10 @@ public class tetrisController implements tetrisConstants{
 	}
 
 	public void levelUp() {
-		// TODO Auto-generated method stub
 		level++;
 	}
 
 	public void levelDown() {
-		// TODO Auto-generated method stub
 		if(level-1>0){
 			level--;
 		}
@@ -200,7 +198,7 @@ public class tetrisController implements tetrisConstants{
 	}
 
 	public int[][] getEnemyArr() {
-		// TODO Auto-generated method stub
+
 		return enemyArr;
 	}
 

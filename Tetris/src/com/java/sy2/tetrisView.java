@@ -79,7 +79,7 @@ public class tetrisView extends JFrame {
 		setLayout(new GridLayout(1, 3));
 
 		gameController=new tetrisController();
-		
+
 
 		gameCanvas=new GameCanvas(gameController);
 		gameCanvas.addKeyListener(gameCanvas);
@@ -119,9 +119,9 @@ public class tetrisView extends JFrame {
 
 		JPanel infoScr = new MyPanel();
 		infoScr.setLayout(new GridLayout(4, 1, 0, 5));
-//		infoScr.setBackground(new Color(77, 208, 225));
+		//		infoScr.setBackground(new Color(77, 208, 225));
 		infoScr.setSize(120, 300);
-		
+
 		rightScr.add(infoScr);
 		JLabel scorep = new JLabel("分数:", JLabel.LEFT);
 		JLabel levelp = new JLabel("等级:", JLabel.LEFT);
@@ -150,12 +150,12 @@ public class tetrisView extends JFrame {
 		controlScr.setLayout(new GridLayout(5, 1, 0, 5));
 		controlScr.setBackground(new Color(0, 131, 143));
 		rightScr.add(controlScr);
-		
-		
-		
+
+
+
 		timerIns.setDaemon(true);
 		timerIns.start();
-		
+
 		// 定义按钮play
 		JButton play_b = new JButton("开始游戏");
 		play_b.setBackground(Color.white);
@@ -185,7 +185,7 @@ public class tetrisView extends JFrame {
 			public void mouseClicked(MouseEvent arg0) {
 				gameController.levelUp();
 				levelField.setText(gameController.getLevel()+"");
-//				gameCanvas.requestFocus();
+				//				gameCanvas.requestFocus();
 			}
 		});
 
@@ -198,7 +198,7 @@ public class tetrisView extends JFrame {
 			public void mouseClicked(MouseEvent arg0) {
 				gameController.levelDown();
 				levelField.setText(gameController.getLevel()+"");
-//				gameCanvas.requestFocus();
+				//				gameCanvas.requestFocus();
 			}
 		});
 
@@ -210,7 +210,7 @@ public class tetrisView extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				gameController.connectToServer();
-				
+
 			}
 		});
 
@@ -255,8 +255,7 @@ public class tetrisView extends JFrame {
 					try {
 						Thread.sleep(500);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						System.out.println(e);
 					}
 				}
 			}
@@ -364,7 +363,7 @@ class GameCanvas extends JPanel implements KeyListener,tetrisConstants{
 
 	// 处理键盘输入的方法
 	public void keyPressed(KeyEvent e) {
-				
+
 		if(!gameController.isPlaying())
 			return;
 		if (soundClipHit.isRunning()) soundClipHit.stop();
@@ -497,7 +496,7 @@ class MyTimer implements Runnable,tetrisConstants{
 					}				
 				}
 			}
-		
+
 		}
 	}
 }

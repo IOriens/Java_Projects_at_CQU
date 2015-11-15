@@ -15,13 +15,13 @@ public class tetrisModel implements tetrisConstants{
 	//	final int unitSize = 30;
 	int rowNum; 
 	int columnNum;
-	int maxAllowRowNum; // �����ж�����δ��
-	int blockInitRow; // �³��ֿ����ʼ������
-	int blockInitCol; // �³��ֿ����ʼ������
+	int maxAllowRowNum; 
+	int blockInitRow; 
+	int blockInitCol; 
 	int blockCurrRow;
 	int blockCurrCol;
-	int[][] scrArr; // ��Ļ����
-	block b; // �Է��������
+	int[][] scrArr; 
+	block b;
 
 	int score;
 	
@@ -30,7 +30,7 @@ public class tetrisModel implements tetrisConstants{
 	Clip soundClipLine;
 	
 
-	// ������Ĺ��췽��
+	
 	tetrisModel() {
 		rowNum = 15;
 		columnNum = 10;
@@ -62,7 +62,7 @@ public class tetrisModel implements tetrisConstants{
 		}
 	}
 
-	// ��ʼ����Ļ��������Ļ��������ķ���
+
 	void initScr() {
 		for (int i = 0; i < rowNum; i++)
 			for (int j = 0; j < columnNum; j++)
@@ -76,16 +76,16 @@ public class tetrisModel implements tetrisConstants{
 		blockCurrCol=blockInitCol;
 	}
 
-	// ������ķ���
+
 	public void drawUnit(int row, int col, int type) {
 		scrArr[row][col] = type;
 	}
 
 	public block getblock() {
-		return b; // ����blockʵ��������
+		return b; 
 	}
 
-	// ����ɾ������
+
 	void deleteFullLine() {
 		int full_line_num = 0;
 		int k = 0;
@@ -126,7 +126,6 @@ public class tetrisModel implements tetrisConstants{
 		score += full_line_num*columnNum;			
 	}
 
-	// �ж���Ϸ�Ƿ��������
 	public boolean isGameEnd() {
 		for (int col = 0; col < columnNum; col++) {
 			if (scrArr[maxAllowRowNum][col]==bottomSquares)
