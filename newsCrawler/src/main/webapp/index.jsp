@@ -118,7 +118,7 @@
 	<br>	
 	
 	<footer class="w3-container w3-theme-dark">
-		<div class="w3-center">
+		<div class="w3-center" >
 			<h4>
 				Created by <a href="http://www.ioriens.com">Oriens</a> and his
 				teammates!

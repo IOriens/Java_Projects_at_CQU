@@ -33,5 +33,12 @@
 			out.println(news.getContent());
 		%>
 	</div>
+	<footer class="w3-container w3-theme-dark ">
+		<div class="w3-center" >	
+		<br>		
+			<a class="w3-text-white w3-large" href="index.jsp">Back Home!</a>
+		</div>
+		<br>
+	</footer>
 </body>
 </html>
