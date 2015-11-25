@@ -26,9 +26,6 @@
 		newsCrawler nc = new newsCrawler();		
 	%>
 
-	<!-- <div class="w3-row-padding w3-center w3-margin-top">
-		<div class="w3-third"></div> -->
-
 	<div class="w3-row">
 		<div class="w3-col" style="width: 25%">
 			<p></p>
@@ -54,8 +51,9 @@
 			<p></p>
 		</div>
 	</div>
-
+			
 	<div class="w3-row-padding w3-center w3-margin-top">
+	
 		<div class="w3-third">
 			<div class="w3-card-2 w3-padding-top" style="min-height: 460px">			
 				<h4>*重大教学*</h4>
@@ -65,15 +63,17 @@
 				%>
 				<ul class="w3-ul w3-card-4">
 					<%for (News ns : importantNewsList) {%>
-					<li><a id="<%out.print(ns.getId());%>"
+					<li class="w3-card-2"><a id="<%out.print(ns.getId());%>"
 						href="showNews.jsp?newsId=<%out.print(ns.getId());%>"
-						rel="external"> <%out.print(ns.getTitle());%>
-					</a></li>
+						rel="external">					
+						<img src="<%out.print(ns.getThumb());%>" alt="<%out.print(ns.getTitle());%>" style="width: 100%">						
+						<%out.print(ns.getTitle());%>										
+					</a></li>					
 					<%}%>
 				</ul>
 			</div>
 		</div>
-
+	
 		<div class="w3-third">
 			<div class="w3-card-2 w3-padding-top" style="min-height: 460px">
 				<h4>*重大科研*</h4>
@@ -83,10 +83,12 @@
 				%>
 				<ul class="w3-ul w3-card-4">
 					<%for (News ns : importantNewsList) {%>
-					<li><a id="<%out.print(ns.getId());%>"
+					<li class="w3-card-2"><a id="<%out.print(ns.getId());%>"
 						href="showNews.jsp?newsId=<%out.print(ns.getId());%>"
-						rel="external"> <%out.print(ns.getTitle());%>
-					</a></li>
+						rel="external">					
+						<img src="<%out.print(ns.getThumb());%>" alt="<%out.print(ns.getTitle());%>" style="width: 100%">						
+						<%out.print(ns.getTitle());%>										
+					</a></li>					
 					<%}%>
 				</ul>
 			</div>
@@ -101,16 +103,20 @@
 				%>
 				<ul class="w3-ul w3-card-4">
 					<%for (News ns : importantNewsList) {%>
-					<li><a id="<%out.print(ns.getId());%>"
+					<li class="w3-card-2"><a id="<%out.print(ns.getId());%>"
 						href="showNews.jsp?newsId=<%out.print(ns.getId());%>"
-						rel="external"> <%out.print(ns.getTitle());%>
-					</a></li>
+						rel="external">					
+						<img src="<%out.print(ns.getThumb());%>" alt="<%out.print(ns.getTitle());%>" style="width: 100%">						
+						<%out.print(ns.getTitle());%>										
+					</a></li>					
 					<%}%>
 				</ul>
 			</div>
 		</div>		
 	</div>
+	
 	<br>	
+	
 	<footer class="w3-container w3-theme-dark">
 		<div class="w3-center">
 			<h4>
