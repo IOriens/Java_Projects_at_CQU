@@ -171,8 +171,7 @@ public class tetrisModel implements tetrisConstants{
 			}else{
 				scrArr=b.fallDown2(blockCurrRow, blockCurrCol, scrArr);
 			}
-		}
-		
+		}		
 	}
 	
 	public int getBlockState(){
@@ -191,7 +190,6 @@ public class tetrisModel implements tetrisConstants{
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
 				if ((int) (block.getCurrPattern(t,s) & k) != 0) {
-
 					int temp = getScrArrXY(row - i, col + j);
 					if (temp < 0 || temp == 2)
 						return false;

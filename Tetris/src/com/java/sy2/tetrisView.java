@@ -241,7 +241,6 @@ public class tetrisView extends JFrame {
 						System.out.println(e);
 					}
 				}
-
 			}
 		});
 		scoreMonitor.start();
