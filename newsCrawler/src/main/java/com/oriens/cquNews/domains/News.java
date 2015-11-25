@@ -6,6 +6,20 @@ public class News {
 	private String description;	
 	private String content;
 	private String thumb;
+	
+	public News(){
+		super();
+	}
+	
+	public News(String id,String title,String description,String content,String thumb) {
+		super();
+		this.content=content;
+		this.description=description;
+		this.id=id;
+		this.thumb=thumb;
+		this.title=title;
+	}
+	
 	public String getId() {
 		return id;
 	}
