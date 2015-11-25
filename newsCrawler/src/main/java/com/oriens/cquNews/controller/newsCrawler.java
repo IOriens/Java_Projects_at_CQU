@@ -13,11 +13,6 @@ import com.oriens.cquNews.domains.News;
 import com.oriens.cquNews.domains.NewsCategory;
 
 
-
-
-
-
-
 public class newsCrawler 
 {
 

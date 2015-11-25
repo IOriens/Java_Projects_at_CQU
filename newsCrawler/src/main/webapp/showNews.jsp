@@ -5,7 +5,8 @@
 <html>
 <%
 	newsCrawler c = new newsCrawler();
-	News news = c.findNews("/news/article/show.php?itemid=64700");
+	String para = request.getParameter("newsId");
+	News news = c.findNews(para);
 %>
 
 <head>
@@ -27,10 +28,10 @@
 			%>
 		</h1>
 	</div>
-	<div class="w3-padding w3-white">	
-	<%
-		out.println(news.getContent());
-	%>
+	<div class="w3-padding w3-white">
+		<%
+			out.println(news.getContent());
+		%>
 	</div>
 </body>
 </html>
