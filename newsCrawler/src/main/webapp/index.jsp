@@ -27,8 +27,22 @@
 	%>
 
 	<div class="w3-row">
-		<div class="w3-col" style="width: 25%">
-			<p></p>
+		<div class="w3-col w3-center" style="width: 25%">
+			<br>
+			<br>
+			<div class="w3-card-4" style="width: 80%">
+				<div class="w3-container w3-blue">
+					<h3>新闻查询</h3>
+				</div>
+				<form id="form1" method="post" class="w3-form" action="showOutCome.jsp">
+					<div class="w3-input-group">
+						<input class="w3-input" type="text" name="queryWords">
+					</div>
+					<div>
+						<input type="submit" class="w3-btn w3-blue" value="提交">
+					</div>
+				</form>
+			</div>
 		</div>
 		<div class="w3-col w3-card-2 w3-padding-top w3-center"
 			style="width: 50%">

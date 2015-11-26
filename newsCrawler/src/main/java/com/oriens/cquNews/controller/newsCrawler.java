@@ -88,14 +88,6 @@ public class newsCrawler
 
 	public static void main( String[] args )
 	{		
-//		Document doc;	
-//		try {
-//			doc = Jsoup.connect("http://news.cqu.edu.cn/news/article/article_71157.html").get();
-//			Elements newsHeadlines=doc.getElementsByClass("title");			
-//			System.out.println(newsHeadlines.text());
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		} 
 		
 		newsCrawler c=new newsCrawler();
 		News news=c.findNews("/news/article/show.php?itemid=64700");
