@@ -24,7 +24,7 @@ public class newsSearcher{
 	public List<String> newsSearch(String queryPhrase) {
 		List<String> result = new ArrayList<String>();		
 		try {
-			File f=new File("E:/lucene/logs");			
+			File f=new File("temp/lucene/logs");			
 			Directory directory = FSDirectory.open(Paths.get((f.getPath())));
 			Analyzer analyzer = new StandardAnalyzer();  
 

@@ -62,8 +62,9 @@
 		</div>
 
 		<div class="w3-col w3-cneter" style="width: 25%">
-			<br> 
-			<div id="newsSearch2" class="w3-card-4 w3-center" style="width: 80%">
+			<br>
+			<br>  
+			<div id="newsSearch3" class="w3-card-4 w3-center" style="width: 80%">
 				<br>
 				<p>
 					<a href="prepareNews.jsp" class="w3-btn w3-center w3-blue">数据准备</a>

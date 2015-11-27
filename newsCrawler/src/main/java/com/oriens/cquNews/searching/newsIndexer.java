@@ -49,7 +49,7 @@ public class newsIndexer {
 	}
 	*/
 	public void indexNews(){
-		File f=new File("E:/lucene/logs");			
+		File f=new File("temp/lucene/logs");			
 		Directory directory;
 		try {
 			directory = FSDirectory.open(Paths.get((f.getPath())));
