@@ -30,7 +30,7 @@
 		<div class="w3-col w3-center" style="width: 25%">
 			<br>
 			<br>
-			<div class="w3-card-4" style="width: 80%">
+			<div id="newsSearch2" class="w3-card-4" style="width: 80%">
 				<div class="w3-container w3-blue">
 					<h3>新闻查询</h3>
 				</div>
