@@ -31,7 +31,7 @@
 			<br>
 			<br>
 			<div id="newsSearch2" class="w3-card-4" style="width: 80%">
-				<div class="w3-container w3-blue">
+				<div class="w3-container w3-blue" >
 					<h3>新闻查询</h3>
 				</div>
 				<form id="form1" method="post" class="w3-form" action="showOutCome.jsp">
@@ -61,8 +61,15 @@
 			</ul>
 		</div>
 
-		<div class="w3-col" style="width: 25%">
-			<p></p>
+		<div class="w3-col w3-cneter" style="width: 25%">
+			<br> 
+			<div id="newsSearch2" class="w3-card-4 w3-center" style="width: 80%">
+				<br>
+				<p>
+					<a href="prepareNews.jsp" class="w3-btn w3-center w3-blue">数据准备</a>
+				<p>
+				<br>
+			</div>
 		</div>
 	</div>
 			
@@ -114,6 +121,7 @@
 				<%
 					categoryId="53";
 					importantNewsList = nc.findNewsByCategory(categoryId);
+					
 				%>
 				<ul class="w3-ul w3-card-4">
 					<%for (News ns : importantNewsList) {%>
