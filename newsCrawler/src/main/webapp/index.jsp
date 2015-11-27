@@ -1,5 +1,6 @@
 <%@page import="com.oriens.cquNews.controller.newsCrawler"%>
 <%@page import="com.oriens.cquNews.domains.News"%>
+<%@page import="com.oriens.cquNews.domains.NewsCategory"%>
 <%@page import="java.util.List"%>
 
 <%@ page contentType="text/html; charset=utf-8" language="java"%>
@@ -14,6 +15,7 @@
 </head>
 <body>
 
+	<!--顶部信息-->
 	<header class="w3-container w3-theme w3-padding" id="myHeader">
 		<div class="w3-center">
 			<h1 class="w3-animate-bottom">
@@ -22,10 +24,12 @@
 		</div>
 	</header>
 
+
+		
+	<!--重要新闻及两侧边栏-->
 	<%		
 		newsCrawler nc = new newsCrawler();		
 	%>
-
 	<div class="w3-row">
 		<div class="w3-col w3-center" style="width: 25%">
 			<br>
@@ -74,13 +78,18 @@
 		</div>
 	</div>
 			
+			
+	<!--三列附属新闻-->
 	<div class="w3-row-padding w3-center w3-margin-top">
-	
+		<%
+			List<NewsCategory>  categoryList=nc.indexNewsCategories();		
+		%>
+		<%for(NewsCategory newsCat:categoryList){ %>
 		<div class="w3-third">
 			<div class="w3-card-2 w3-padding-top" style="min-height: 460px">			
-				<h4>*重大教学*</h4>
+				<h4>*<%out.print(newsCat.getName());%>*</h4>
 				<%
-					categoryId="48";
+					categoryId=newsCat.getId();
 					importantNewsList = nc.findNewsByCategory(categoryId);
 				%>
 				<ul class="w3-ul w3-card-4">
@@ -95,51 +104,12 @@
 				</ul>
 			</div>
 		</div>
-	
-		<div class="w3-third">
-			<div class="w3-card-2 w3-padding-top" style="min-height: 460px">
-				<h4>*重大科研*</h4>
-				<%
-					categoryId="46";
-					importantNewsList = nc.findNewsByCategory(categoryId);
-				%>
-				<ul class="w3-ul w3-card-4">
-					<%for (News ns : importantNewsList) {%>
-					<li class="w3-card-2"><a id="<%out.print(ns.getId());%>"
-						href="showNews.jsp?newsId=<%out.print(ns.getId());%>"
-						rel="external">					
-						<img src="<%out.print(ns.getThumb());%>" alt="<%out.print(ns.getTitle());%>" style="width: 100%">						
-						<%out.print(ns.getTitle());%>										
-					</a></li>					
-					<%}%>
-				</ul>
-			</div>
-		</div>
-
-		<div class="w3-third">
-			<div class="w3-card-2 w3-padding-top" style="min-height: 460px">
-				<h4>*招生就业*</h4>
-				<%
-					categoryId="53";
-					importantNewsList = nc.findNewsByCategory(categoryId);
-					
-				%>
-				<ul class="w3-ul w3-card-4">
-					<%for (News ns : importantNewsList) {%>
-					<li class="w3-card-2"><a id="<%out.print(ns.getId());%>"
-						href="showNews.jsp?newsId=<%out.print(ns.getId());%>"
-						rel="external">					
-						<img src="<%out.print(ns.getThumb());%>" alt="<%out.print(ns.getTitle());%>" style="width: 100%">						
-						<%out.print(ns.getTitle());%>										
-					</a></li>					
-					<%}%>
-				</ul>
-			</div>
-		</div>		
+		<%}%>					
 	</div>
 	
 	<br>	
 	
+	<!--主页底部-->
 	<footer class="w3-container w3-theme-dark">
 		<div class="w3-center" >
 			<h4>

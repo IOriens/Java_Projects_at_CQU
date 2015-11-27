@@ -27,6 +27,17 @@ public class newsCrawler
 		categories.add(new NewsCategory("00","重要新闻"));		
 		return categories;
 	}
+	
+	public List<NewsCategory> indexNewsCategories()
+	{
+		List<NewsCategory> categories=new ArrayList<NewsCategory>();
+		categories.add(new NewsCategory("46","重大科研"));
+		categories.add(new NewsCategory("48","重大教学"));
+		categories.add(new NewsCategory("53","招生就业"));
+	
+		return categories;
+	}
+	
 
 	public List<News> findNewsByCategory(String categoryId)
 	{
