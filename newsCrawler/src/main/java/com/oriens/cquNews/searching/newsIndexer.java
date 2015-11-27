@@ -69,18 +69,21 @@ public class newsIndexer {
 			
 			for(NewsCategory newsCategory:newsCategories){
 				categoryId=newsCategory.getId();
+				System.out.println("cat========"+categoryId);
 				List<News> importantNewsList = nc.findNewsByCategory(categoryId);			
 				for (News ns : importantNewsList){
 					newsId=ns.getId();
 					news = nc.findNews(newsId);
 					news.setId(newsId);
 					System.out.println(news.getTitle());
-
-					doc=new Document();
-					doc.add(new StringField("title", news.getTitle(), Field.Store.YES));
-					doc.add(new StringField("id", news.getId(), Field.Store.YES));
-					doc.add(new TextField("content", news.getContent()+news.getTitle(),Field.Store.NO));
-					iwriter.addDocument(doc);
+					if(news.getTitle()!=null){
+						doc=new Document();
+						doc.add(new StringField("title", news.getTitle(), Field.Store.YES));
+						doc.add(new StringField("id", news.getId(), Field.Store.YES));
+						doc.add(new TextField("content", news.getContent()+news.getTitle(),Field.Store.NO));
+						iwriter.addDocument(doc);
+					}
+					
 				}
 			}			
 			iwriter.close();

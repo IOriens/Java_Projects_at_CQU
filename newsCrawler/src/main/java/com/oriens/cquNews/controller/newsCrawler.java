@@ -46,7 +46,7 @@ public class newsCrawler
 			//当为重要新闻时，没有固定的归类，所以要分情况判断
 			//categoryId=00表示重要新闻
 			if(categoryId.equals("00")){
-				Document doc = Jsoup.connect("http://news.cqu.edu.cn/news/").get();
+				Document doc = Jsoup.connect("http://news.cqu.edu.cn/news/").timeout(5000).get();
 				Elements topnews = doc.select("div.topnews li.tag_title");
 				for(Element row:topnews)
 				{
@@ -75,7 +75,9 @@ public class newsCrawler
 	{
 		News news=new News();
 		try {
-			Document doc = Jsoup.connect("http://news.cqu.edu.cn"+newsId).get();
+			System.out.println("http://news.cqu.edu.cn"+newsId);
+			Document doc = Jsoup.connect("http://news.cqu.edu.cn"+newsId).timeout(5000).get();
+			
 			news.setTitle(doc.select("div.title h1").first().text());
 			Element content=doc.select("#zoom").first();		
 			Elements imgs=doc.select("img");
@@ -92,7 +94,7 @@ public class newsCrawler
 			content.attr("class","newsContent");
 			news.setContent(content.toString());
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println(e);
 		}
 		return news;
 	}
@@ -101,7 +103,7 @@ public class newsCrawler
 	{		
 		
 		newsCrawler c=new newsCrawler();
-		News news=c.findNews("/news/article/show.php?itemid=64700");
+		News news=c.findNews("/news/article/show.php?itemid=71307");
 		System.out.println(news.getTitle());
 		System.out.println(news.getContent());
 
