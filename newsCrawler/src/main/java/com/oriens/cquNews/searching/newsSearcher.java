@@ -36,8 +36,10 @@ public class newsSearcher{
 			parser.setDefaultOperator(QueryParser.AND_OPERATOR);					
 			Query query = parser.parse("\""+queryPhrase+"\"");
 			//Query query = parser.parse("重庆大学 青年教师");//两种情况
-
-			TopDocs results = isearcher.search(query, 5 * 10);
+			
+			//搜索条数
+			int searchNum=100;					
+			TopDocs results = isearcher.search(query, searchNum);
 			ScoreDoc[] hits = results.scoreDocs;
 
 			int numTotalHits = results.totalHits;

@@ -27,7 +27,7 @@
 			查询结果
 		</h1>
 		<h4>
-			搜索到“<%out.print(newsIdList.size());%>”条相关新闻
+			满足搜索条件的前“<%out.print(newsIdList.size());%>”条相关新闻
 		</h4>
 	</div>
 	<br>

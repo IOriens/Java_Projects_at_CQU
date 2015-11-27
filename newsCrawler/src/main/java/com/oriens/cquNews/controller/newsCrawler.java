@@ -38,7 +38,7 @@ public class newsCrawler
 		return categories;
 	}
 	
-
+	//生成网页用
 	public List<News> findNewsByCategory(String categoryId)
 	{
 		List<News> newsList=new ArrayList<News>();
@@ -64,6 +64,45 @@ public class newsCrawler
 					News news=new News(link.attr("href"),img.attr("alt"),"","","http://news.cqu.edu.cn/"+img.attr("src"));
 					newsList.add(news);
 				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return newsList;
+	}
+	
+	//抓取数据用
+	public List<News> findNewsByCategory(String categoryId,int depth)
+	{
+		List<News> newsList=new ArrayList<News>();
+		try {
+			//当为重要新闻时，没有固定的归类，所以要分情况判断
+			//categoryId=00表示重要新闻
+			if(categoryId.equals("00")){
+				Document doc = Jsoup.connect("http://news.cqu.edu.cn/news/").timeout(5000).get();
+				Elements topnews = doc.select("div.topnews li.tag_title");
+				for(Element row:topnews)
+				{
+					Element link=row.select("a").first();
+					News news=new News(link.attr("href"),link.attr("title"),"","","");
+					newsList.add(news);
+				}
+			}else{
+				String baseAddress="http://news.cqu.edu.cn/news/article/list.php?catid="+categoryId+"&page=";
+				String addressToCrawl=baseAddress;
+				for(int i=0;i<depth;i++){					
+					addressToCrawl=baseAddress+(i+1);					
+					Document doc = Jsoup.connect(addressToCrawl).timeout(5000).get();
+					Elements otherNews = doc.select("div.linews li.tag_title");
+					for(Element row:otherNews)
+					{
+						Element link=row.select("a").first();		
+						if(link.attr("href").matches(".+\\d+(.html)?")){
+							News news=new News(link.attr("href"),link.attr("title"),"","","");
+							newsList.add(news);
+						}						
+					}
+				}	
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -101,11 +140,12 @@ public class newsCrawler
 
 	public static void main( String[] args )
 	{		
-		
-		newsCrawler c=new newsCrawler();
-		News news=c.findNews("/news/article/show.php?itemid=71307");
-		System.out.println(news.getTitle());
-		System.out.println(news.getContent());
-
+//		
+//		newsCrawler c=new newsCrawler();
+//		News news=c.findNews("/news/article/show.php?itemid=71307");
+//		System.out.println(news.getTitle());
+//		System.out.println(news.getContent());
+		System.out.println("fasdfsd434ui".matches(".+\\d+(.html)?"));
+		//html or no number error
 	}
 }

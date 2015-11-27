@@ -47,8 +47,9 @@ public class newsIndexer {
 			e.printStackTrace();
 		}
 	}
-	*/
+	*/	
 	public void indexNews(){
+		int totalNumOfNews=0;
 		File f=new File("temp/lucene/logs");			
 		Directory directory;
 		try {
@@ -67,16 +68,21 @@ public class newsIndexer {
 			String newsId;
 			News news;
 			
+			int depth=20;
+			
+			
 			for(NewsCategory newsCategory:newsCategories){
 				categoryId=newsCategory.getId();
-				System.out.println("cat========"+categoryId);
-				List<News> importantNewsList = nc.findNewsByCategory(categoryId);			
+				System.out.println("cat=============================="+categoryId);
+				List<News> importantNewsList = nc.findNewsByCategory(categoryId,depth);			
 				for (News ns : importantNewsList){
 					newsId=ns.getId();
 					news = nc.findNews(newsId);
 					news.setId(newsId);
-					System.out.println(news.getTitle());
-					if(news.getTitle()!=null){
+					System.out.print(news.getTitle());
+					totalNumOfNews++;
+					System.out.println("======第"+totalNumOfNews+"条");
+					if(news.getTitle()!=null&&news.getId()!=null&&news.getContent()!=null){
 						doc=new Document();
 						doc.add(new StringField("title", news.getTitle(), Field.Store.YES));
 						doc.add(new StringField("id", news.getId(), Field.Store.YES));
