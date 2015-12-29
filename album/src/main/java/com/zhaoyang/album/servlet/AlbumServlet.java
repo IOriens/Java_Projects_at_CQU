@@ -69,8 +69,7 @@ public class AlbumServlet extends HttpServlet{
 		try {
 			albums = dao.getAllAlbum(uId);
 			if(albums.size()>0){
-				request.setAttribute("albums22", albums);				
-				System.out.println("=================albumservelet========================albumid:"+albums.get(0).albumID);
+				request.setAttribute("albums22", albums);								
 				RequestDispatcher rd = request.getRequestDispatcher("viewAlbum.jsp");
 				rd.forward(request, response);
 			}else{

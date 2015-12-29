@@ -158,8 +158,7 @@ public class ImageServlet extends HttpServlet{
 			throws Exception {
 		String imageId = request.getParameter("imageId");
 		UserImage userImage;
-		try {
-			System.out.println("========================ImageServelet==================="+imageId);
+		try {			
 			userImage = dao.getImage(imageId);
 			String image = userImage.getImage();
 			File file = new File(imageDir,  image);

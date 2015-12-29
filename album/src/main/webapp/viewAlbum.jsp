@@ -11,7 +11,6 @@
 <body>
 <input type="button"  onclick="javascript:history.back(-1);" 
 		value="返回" style="height:30px;width:80px;">
-<p align="center">相册信息</p>
 <table>
 	<tr>
 		<td>相册名称</td><td>照片数量</td><td>管理</td>

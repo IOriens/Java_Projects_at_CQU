@@ -12,9 +12,9 @@
 <body>
 	<h1>欢迎登陆网络相册！</h1>
 	<form action="UserServlet?op=login" method="post">
-		<br> 用&nbsp;户&nbsp;名&nbsp;&nbsp; <input type="text" id="userName"
+		<br> 用户名 <input type="text" id="userName"
 			name="userName" size="40" maxlength="12" /> <br>
-		<br> 密&nbsp;&nbsp;&nbsp;&nbsp;码&nbsp;&nbsp; <input
+		<br> 密码 <input
 			type="password" id="userPswd" name="userPswd" height="90" size="60"
 			maxlength="12" /> <br>
 		<br>		

@@ -24,15 +24,6 @@ public class UserImage {
 	}
 
 	
-//	public int getuID() {
-//		return uID;
-//	}
-//
-//	public void setuID(int uID) {
-//		this.uID = uID;
-//	}
-
-	
 	public String getImageName() {
 		return imageName;
 	}

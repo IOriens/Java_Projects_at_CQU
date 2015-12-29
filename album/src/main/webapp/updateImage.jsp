@@ -11,9 +11,10 @@
 	<label for="imageName">相片名称:</label>
 	<input type="text" name="imageName" value="<%=request.getParameter("imageName")%>" >
 	<br><br>		
-	<label for="imageDes">描述:	<%=new String(request.getParameter("imageDes").getBytes("iso8859-2"),"utf-8")%></label><br>
+	<%-- <label for="imageDes">描述:	<%=new String(request.getParameter("imageDes").getBytes("iso8859-2"),"utf-8")%></label><br> --%>
+	<label for="imageDes">描述:</label><br>
 	
-	<textarea  id="imageDes" name="imageDes" rows="4">输入新描述。</textarea>
+	<textarea  id="imageDes" name="imageDes" rows="4"><%=request.getParameter("imageDes")%></textarea>
 <!--     <input type="button"  onclick="javascript:history.back(-1);" 
 		value="返回" style="height:30px;width:80px;"> -->
     <input type="submit" >
