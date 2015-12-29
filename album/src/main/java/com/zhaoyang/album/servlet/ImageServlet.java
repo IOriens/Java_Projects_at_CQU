@@ -117,9 +117,12 @@ public class ImageServlet extends HttpServlet{
 			userImage = dao.getImage(imageID);
 			String image = userImage.getImage();
 			File file = new File(imageDir, image);
-			if (file.delete())
-			dao.deleteImage(imageID);
-			dao.decreseNumber(userImage.getAlbumId());
+			if(file.exists()){
+				if (file.delete()){
+					dao.decreseNumber(userImage.getAlbumId());
+					dao.deleteImage(imageID);
+				}
+			}						
 			response.sendRedirect("list.jsp");
 
 		} catch (Exception e) {
@@ -135,9 +138,16 @@ public class ImageServlet extends HttpServlet{
 		List<UserImage> userImages;
 		try {
 			userImages = dao.getAllImage(albumI);
-			request.setAttribute("userImages", userImages);			
-			RequestDispatcher rd = request.getRequestDispatcher("viewImage.jsp");
-			rd.forward(request, response);
+			if(userImages.size()>0){
+				request.setAttribute("userImages", userImages);			
+				RequestDispatcher rd = request.getRequestDispatcher("viewImage.jsp");
+				rd.forward(request, response);
+			}else{
+				request.setAttribute("albumID", albumI);
+				RequestDispatcher rd = request.getRequestDispatcher("addImage.jsp");
+				rd.forward(request, response);
+			}
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

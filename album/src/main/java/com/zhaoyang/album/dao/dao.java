@@ -178,8 +178,7 @@ public class dao {
 					UserAlbum album = new UserAlbum();
 					album.setAlbumIDId(rs.getInt("albumID"));
 					album.setuID (rs.getInt("uID"));
-					album.setAlbumName(rs.getString("albumName"));
-					
+					album.setAlbumName(rs.getString("albumName"));				
 					album.setNumber(rs.getInt("number"));					
 					albums.add(album);//重点理解
 				}

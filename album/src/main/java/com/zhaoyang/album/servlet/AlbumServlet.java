@@ -65,11 +65,12 @@ public class AlbumServlet extends HttpServlet{
 			throws Exception {
 		String uID = request.getParameter("uid");		
 		int uId =  Integer.parseInt(uID);
-		List<UserAlbum> albums;
+		List<UserAlbum> albums=null;
 		try {
 			albums = dao.getAllAlbum(uId);
 			if(albums.size()>0){
-				request.setAttribute("albums22", albums);					
+				request.setAttribute("albums22", albums);				
+				System.out.println("=================albumservelet========================albumid:"+albums.get(0).albumID);
 				RequestDispatcher rd = request.getRequestDispatcher("viewAlbum.jsp");
 				rd.forward(request, response);
 			}else{
@@ -107,7 +108,7 @@ public class AlbumServlet extends HttpServlet{
 		int albumId = Integer.parseInt(albumID);
 		
 		try {
-			System.out.println("=================albumservelet========================albumid:"+albumId);
+			
 			dao.deleteAlbum(albumId);
 			response.sendRedirect("list.jsp");
 		} catch (Exception e) {
